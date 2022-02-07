@@ -1,19 +1,36 @@
-#ifndef _WORDLIST_H
-#define _WORDLIST_H
+#pragma bank 3
 
-// #pragma bank 2
+#include <string.h>
+#include "other_words.h"
 
-#include <stdbool.h>
-#include <gbdk/platform.h>
+bool is_valid_word(char search[6]) BANKED {
+    unsigned int cursor = 0;
+    unsigned int prev_depth = 0;
+    char curr_word[6] = "";
+    while(1) {
+        uint8_t _char = other_word_tree[cursor];
+        unsigned char letter = (_char & 31) + 65;
+        unsigned int depth = _char >> 5;
 
-void pick_random_word(char *ret) BANKED;
-// bool is_valid_word(char search[6]) BANKED;
+        curr_word[depth] = letter;
 
-static const int word_count = 2315;
+        if (depth == 4) {
+            if (strcmp(curr_word, search) == 0) {
+                return TRUE;
+            }
+        }
 
-extern const uint8_t word_tree[5639];
-/*
-static const uint8_t other_word_tree[21353] = {
+        prev_depth = depth;
+
+        if (++cursor >= 21353) {
+            break;
+        }
+    }
+
+    return FALSE;
+}
+
+const uint8_t other_word_tree[21353] = {
     0,   32,  71,  100, 131, 75,  104, 136, 81,  102, 135, 115, 136, 33,  64,
     98,  128, 136, 146, 101, 147, 106, 128, 108, 143, 109, 131, 114, 135, 138,
     120, 128, 65,  96,  146, 100, 131, 146, 66,  100, 132, 68,  96,  140, 145,
@@ -1438,6 +1455,3 @@ static const uint8_t other_word_tree[21353] = {
     146, 113, 142, 84,  106, 146, 86,  100, 132, 104, 132, 52,  75,  116, 146,
     79,  96,  141, 146, 111, 128, 81,  101, 146, 89,  104, 140, 56,  70,  96,
     139, 110, 141, 76,  100, 146, 104, 130};
-
-*/
-#endif

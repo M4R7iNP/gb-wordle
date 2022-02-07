@@ -14,14 +14,15 @@
 #include <rand.h>
 
 #include "wordlist.h"
-#include "filter.h"
-#include "bloom.h"
+#include "other_words.h"
+// #include "filter.h"
+// #include "bloom.h"
 
 
 void set_box_color_for_letter(char *word, int position, char letter);
 void set_letter_color_for_letter(char *word, int position, char letter);
 
-bloom_t bloom;
+// bloom_t bloom;
 const char *kb[3] = {
 "Q W E R T Y U I O P",
 " A S D F G H J K L",
@@ -259,7 +260,7 @@ void run_wordle(void)
     }
 
     gotogxy(2, 0);
-    gprint("GameBoy  WORDLE");
+    // gprint("GameBoy  WORDLE");
     draw_keyboard(0, kb_vert_offset);
 
     color(LTGREY, WHITE, M_NOFILL);
@@ -270,12 +271,18 @@ void run_wordle(void)
             uint16_t seed = LY_REG;
             seed |= (uint16_t)DIV_REG << 8;
             initrand(seed);
+            /*
             int r = rand();
             while(r > 211) {
                 r = rand();
             }
             strcpy(word, words[r]);
+            */
+            pick_random_word(word);
             has_random = 1;
+
+            gotogxy(2, 0);
+            gprintf("%s", word);
         }
 
         switch(j) {
@@ -324,8 +331,11 @@ void run_wordle(void)
             case J_SELECT:
             case J_START:
                 if(strlen(guess) != 5) break;
+                if (!is_valid_word(guess)) break;
+                /*
                 if(!bloom_test(bloom, guess)) break;
                 // bool bloom_test(bloom_t filter, const void *item);
+                */
                 analyze_guess(guess);
                 strcpy(guesses[guess_nr], guess);
                 guess_nr += 1;
@@ -367,9 +377,11 @@ void run_wordle(void)
 }
 
 void main() {
+    /*
     // Initialize bloom filter
     bloom = bloom_create_existing(bloom_data_len, bloom_data);
     bloom_add_hash(bloom, djb2);
+    */
 
     while(1) {
         run_wordle();    

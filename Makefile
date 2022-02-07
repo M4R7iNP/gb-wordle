@@ -15,8 +15,10 @@ LCC = $(GBDK_HOME)bin/lcc
 PROJECTNAME    = WORDLE
 
 BINS	    = $(PROJECTNAME).gb
-CSOURCES   := $(wildcard *.c)
+# CSOURCES   := $(wildcard *.c)
+CSOURCES	:= main.c wordlist.c other_words.c
 ASMSOURCES := $(wildcard *.s)
+LCCFLAGS	:= -Wl-j  -Wm-yoA -Wm-ya4
 
 all:	$(BINS)
 
@@ -26,7 +28,7 @@ compile.bat: Makefile
 
 # Compile and link all source files in a single call to LCC
 $(BINS):	$(CSOURCES) $(ASMSOURCES)
-	$(LCC) -o $@ $(CSOURCES) $(ASMSOURCES)
+	$(LCC) $(LCCFLAGS) -o $@ $(CSOURCES) $(ASMSOURCES) -mgbz80:gb
 
 clean:
 	rm -f *.o *.lst *.map *.gb *.ihx *.sym *.cdb *.adb *.asm
