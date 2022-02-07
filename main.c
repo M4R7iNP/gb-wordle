@@ -331,7 +331,7 @@ void run_wordle(void)
             case J_SELECT:
             case J_START:
                 if(strlen(guess) != 5) break;
-                if (!is_valid_word(guess)) break;
+                if (!is_valid_word(guess) && !is_valid_answer_word(guess)) break;
                 /*
                 if(!bloom_test(bloom, guess)) break;
                 // bool bloom_test(bloom_t filter, const void *item);

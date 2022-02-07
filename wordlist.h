@@ -7,7 +7,7 @@
 #include <gbdk/platform.h>
 
 void pick_random_word(char *ret) BANKED;
-// bool is_valid_word(char search[6]) BANKED;
+bool is_valid_answer_word(char search[6]) BANKED;
 
 static const int word_count = 2315;
 

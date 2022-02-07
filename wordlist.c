@@ -37,6 +37,33 @@ void pick_random_word(char *ret) BANKED {
     }
 }
 
+bool is_valid_answer_word(char search[6]) BANKED {
+    unsigned int cursor = 0;
+    unsigned int prev_depth = 0;
+    char curr_word[6] = "";
+    while(1) {
+        uint8_t _char = word_tree[cursor];
+        unsigned char letter = (_char & 31) + 65;
+        unsigned int depth = _char >> 5;
+
+        curr_word[depth] = letter;
+
+        if (depth == 4) {
+            if (strcmp(curr_word, search) == 0) {
+                return TRUE;
+            }
+        }
+
+        prev_depth = depth;
+
+        if (++cursor >= 21353) {
+            break;
+        }
+    }
+
+    return FALSE;
+}
+
 const uint8_t word_tree[5639] = {
     2,   40,  70,  96,  145, 85,  104, 130, 139, 77,  98,  135, 67,  100, 145,
     81,  98,  128, 49,  84,  114, 147, 135, 108, 143, 129, 100, 139, 99,  132,
