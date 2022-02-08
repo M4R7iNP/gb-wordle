@@ -6,15 +6,11 @@
 
 #pragma bank 2
 
-void pick_random_word(char *ret) BANKED {
-    // strcpy(word, "CHAIR");
-
+void pick_random_word(unsigned char *ret) BANKED {
     unsigned int picked_idx = randw() % word_count;
 
     unsigned int word_idx = 0;
     unsigned int cursor = 0;
-    unsigned int prev_depth = 0;
-    // char curr_word[6] = "";
     while(1) {
         uint8_t _char = word_tree[cursor];
         unsigned char letter = (_char & 31) + 65;
@@ -29,18 +25,15 @@ void pick_random_word(char *ret) BANKED {
             word_idx++;
         }
 
-        prev_depth = depth;
-
-        if (++cursor >= 5639) {
+        if (++cursor >= 5638) {
             break;
         }
     }
 }
 
-bool is_valid_answer_word(char search[6]) BANKED {
+bool is_valid_answer_word(unsigned char search[6]) BANKED {
     unsigned int cursor = 0;
-    unsigned int prev_depth = 0;
-    char curr_word[6] = "";
+    unsigned char curr_word[6] = "";
     while(1) {
         uint8_t _char = word_tree[cursor];
         unsigned char letter = (_char & 31) + 65;
@@ -54,9 +47,7 @@ bool is_valid_answer_word(char search[6]) BANKED {
             }
         }
 
-        prev_depth = depth;
-
-        if (++cursor >= 21353) {
+        if (++cursor >= 5639) {
             break;
         }
     }

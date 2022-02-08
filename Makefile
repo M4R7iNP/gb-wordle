@@ -16,7 +16,7 @@ PROJECTNAME    = WORDLE
 
 BINS	    = $(PROJECTNAME).gb
 # CSOURCES   := $(wildcard *.c)
-CSOURCES	:= main.c wordlist.c other_words.c
+CSOURCES	:= main.c wordlist.c other_words.c other_words2.c
 ASMSOURCES := $(wildcard *.s)
 LCCFLAGS	:= -Wl-j  -Wm-yoA -Wm-ya4
 
